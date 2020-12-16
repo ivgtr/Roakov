@@ -23,7 +23,9 @@ const main = async () => {
         return 1
       })
     })
-
+    if (!fs.existsSync(`${__dirname}/static`)) {
+      fs.mkdirSync(`${__dirname}/static`)
+    }
     fs.writeFileSync(`${__dirname}/static/db.json`, JSON.stringify(db))
 
     return db
