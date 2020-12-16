@@ -1,31 +1,35 @@
 import fs from 'fs'
-import path, { resolve } from 'path'
-import json from './static/roa_slim.json'
 import TinySegmenter from 'tiny-segmenter'
 
-const main = async (w = 'こんにちは') => {
-  const tinySegmenter = new TinySegmenter();
+const main = async () => {
   
-
-  const index = {}
-  
-  const tweetData = await json.map((v) => {
-    const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/,'お前、')
-    const segments:string[] =  tinySegmenter.segment(text.split("。").join(""))
+  if (!fs.existsSync('./static/db.json')) {
+    const db: {
+      [key:string]: string[]
+    } = {}
+    const json = require('./static/yuzuki_roa.json')
+    const tinySegmenter = new TinySegmenter();
     
-    return segments
-  })
-
-  tweetData.map((tweet) => {
-    ['_BOS_',...tweet,'_EOS_'].sort((a:string, b:string) => {
-      // if (index[b].) {
-      //   index[b] = 
-      // }
-      return 1
+    const tweetData = await json.map((v:{tweet:string}) => {
+      const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/,'お前、')
+      const segments:string[] =  tinySegmenter.segment(text.split("。").join(""))
+      
+      return segments
     })
-  })  
+
+    tweetData.map((tweet:string[]) => {
+      ['_BOS_',...tweet,'_EOS_'].sort((a:string, b:string) => {
+        db[b] ? db[b] = db[b].concat([a]) : db[b] = [a]
+        return 1
+      })
+    })
+
+    fs.writeFileSync(`${__dirname}/static/db.json`, JSON.stringify(db))
+
+    return db
+  }
+
+
 }
 
-(() => {
-  main()
-})()
+export default main
