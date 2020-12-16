@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path, { resolve } from 'path'
 import json from './static/roa_slim.json'
-const TinySegmenter = require('tiny-segmenter')
+import TinySegmenter from 'tiny-segmenter'
 
 const main = async (w = 'こんにちは') => {
   const tinySegmenter = new TinySegmenter();
