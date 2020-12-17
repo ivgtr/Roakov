@@ -12,16 +12,16 @@ const main = async () => {
 
     // リプライ部分をお前に直してたがお前から始まる割合が多すぎるので一旦除去
     // const tweetData = await json.map((v:{tweet:string}) => {
-    //   const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/,'お前、')
-    //   const segments:string[] =  tinySegmenter.segment(text.split("。").join(""))
+    //   const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/g,'お前、').split("。").join("")
+    //   const segments:string[] =  tinySegmenter.segment(text)
       
     //   return segments
     // })
 
     // リプライとurlが含まれる会話は除去してる
     const tweetData = await json.reduce((acc:string[][], value: { tweet: string }) => {
-      const text = value.tweet.split("。").join("")
-      if (text.match(/@([A-Za-z0-9_]+)\s+/) || text.match(/https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/)) {
+      const text = value.tweet.replace(/@([A-Za-z0-9_]+)\s+/g,'お前、').split("。").join("")
+      if (text.match(/https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/)) {
         return acc
       }
       const segments: string[] = tinySegmenter.segment(text)
