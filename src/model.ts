@@ -9,13 +9,25 @@ const main = async () => {
     } = {}
     const json = require('./static/yuzuki_roa.json')
     const tinySegmenter = new TinySegmenter();
-    
-    const tweetData = await json.map((v:{tweet:string}) => {
-      const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/,'お前、')
-      const segments:string[] =  tinySegmenter.segment(text.split("。").join(""))
+
+    // リプライ部分をお前に直してたがお前から始まる割合が多すぎるので一旦除去
+    // const tweetData = await json.map((v:{tweet:string}) => {
+    //   const text = v.tweet.replace(/@([A-Za-z0-9_]+)\s+/,'お前、')
+    //   const segments:string[] =  tinySegmenter.segment(text.split("。").join(""))
       
-      return segments
-    })
+    //   return segments
+    // })
+
+    // リプライとurlが含まれる会話は除去してる
+    const tweetData = await json.reduce((acc:string[][], value: { tweet: string }) => {
+      const text = value.tweet.split("。").join("")
+      if (text.match(/@([A-Za-z0-9_]+)\s+/) || text.match(/https?:\/\/[-_.!~*\'()a-zA-Z0-9;\/?:\@&=+\$,%#]+/)) {
+        return acc
+      }
+      const segments: string[] = tinySegmenter.segment(text)
+      acc.push(segments)
+      return acc
+    },[])
 
     tweetData.map((tweet:string[]) => {
       ['_BOS_',...tweet,'_EOS_'].sort((a:string, b:string) => {
