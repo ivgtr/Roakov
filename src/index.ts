@@ -18,7 +18,7 @@ const makeSentence = (morpheme: {
 
 const main = async () => {
   if (fs.existsSync(`${__dirname}/static/db.json`)) {
-    const db:{[key:string]: string[]} = JSON.parse(fs.readFileSync(`${__dirname}/static/db.json`, 'utf8'))
+    const db: { [key: string]: string[] } = JSON.parse(fs.readFileSync(`${__dirname}/static/db.json`, 'utf8'))
     console.log(makeSentence(db))
     return
   }
