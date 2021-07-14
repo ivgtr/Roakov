@@ -21,8 +21,7 @@ export type Tweet = {
   replies_count: number;
   retweets_count: number;
   likes_count: number;
-  hashtags?: string[];
-  cashtags?: string[];
+  hashtags: string[];
   link: string;
   retweet: boolean;
   quote_url: string;
@@ -63,11 +62,15 @@ const parseTweetData = async (tweetData: Tweet[]) => {
   const parseTweetData: string[][] = [];
   for await (const tweet of tweetData) {
     // リプライは除去
-    if (tweet.reply_to.length || tweet.tweet.match(/@([A-Za-z0-9_]+)\s+/)) {
+    if (tweet.reply_to.length || tweet.tweet.match(/@([A-Za-z0-9_]+)/)) {
       continue;
     }
     // RTは除去
     if (tweet.retweet) {
+      continue;
+    }
+    // ハッシュタグ付きは除去
+    if (tweet.hashtags.length) {
       continue;
     }
     // リンクが入っているツイートは除去
@@ -84,10 +87,11 @@ const parseTweetData = async (tweetData: Tweet[]) => {
     );
     let tmp: string[] = [];
     for await (const token of segment) {
-      tmp.push(token);
       if (token === "。") {
         if (tmp.length) parseTweetData.push(tmp);
         tmp = [];
+      } else {
+        tmp.push(token);
       }
     }
     if (tmp.length) parseTweetData.push(tmp);
