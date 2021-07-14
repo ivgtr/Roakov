@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "kuromojin": "^3.0.0",
-    "markov-strings": "^3.0.1",
     "meow": "^10.0.1"
   }
 }
