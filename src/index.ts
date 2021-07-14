@@ -1,32 +1,42 @@
-import fs from 'fs'
-import model from './model'
+import fs from "fs/promises";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+import { createModel } from "./createModel.js";
+import { generateTweet } from "./generateTweet.js";
 
-const makeSentence = (morpheme: {
-    [key:string]: string[]
-  }) => {
-    var now_word = ""
-    var morphemes = ""
-    now_word = morpheme["_BOS_"][Math.floor( Math.random() * morpheme["_BOS_"].length )];
-    morphemes += now_word;
-    while(now_word != "_EOS_"){
-        now_word = morpheme[now_word][Math.floor( Math.random() * morpheme[now_word].length )];
-        morphemes += now_word;
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export type Options = {
+  tweets: number;
+  stateSize?: number;
+};
+
+export const roakov = async (opotions: Options) => {
+  const ASSETS_DIR = path.join(__dirname, "/assets");
+  const MODEL_PATH = path.join(ASSETS_DIR, "/model.json");
+
+  try {
+    await fs.access(MODEL_PATH);
+    if (opotions.stateSize) {
+      console.error("modelを破棄し、再生成します");
+      await fs.rm(MODEL_PATH);
+      await createModel(ASSETS_DIR, opotions.stateSize);
     }
-    morphemes = morphemes.replace(/_EOS_$/,"。")
-    return morphemes;
-}
-
-const main = async () => {
-  if (fs.existsSync(`${__dirname}/static/db.json`)) {
-    const db: { [key: string]: string[] } = JSON.parse(fs.readFileSync(`${__dirname}/static/db.json`, 'utf8'))
-    console.log(makeSentence(db))
-    return
+  } catch {
+    console.error("modelが存在しません、生成します");
+    await createModel(ASSETS_DIR, opotions.stateSize ?? 5);
   }
-  const _db = await model()
-  console.log(makeSentence(_db as {[key:string]: string[]}))
-  return
-}
 
-(() => {
-  main()
-})()
+  const modelData: { [key: string]: string[][] } = JSON.parse(
+    await fs.readFile(MODEL_PATH, "utf8")
+  );
+
+  const result = await Promise.all(
+    [...Array(opotions.tweets)].map(async () => {
+      const roa = await generateTweet(modelData);
+      return roa;
+    })
+  );
+
+  return result;
+};
