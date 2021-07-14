@@ -1,26 +1,30 @@
 {
-  "name": "roa-v1",
+  "name": "roakov",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">= 12.2.0"
+  },
   "license": "MIT",
   "scripts": {
-    "start": "tsc -w",
-    "prebuild": "rimraf lib",
+    "start": "tsc",
+    "roakov": "node --loader ts-node/esm/transpile-only ./src/cli.ts",
+    "rm:model": "node -e 'fs.rmSync(`./src/assets/model.json`, {recursive:true, force:true})'",
+    "prebuild": "node -e 'fs.rmSync(`lib`, {recursive:true, force:true})'",
     "build": "ncc build src/index.ts --out lib --minify"
   },
   "devDependencies": {
-    "@types/kuromoji": "^0.1.0",
-    "@types/node": "^14.14.14",
-    "@types/prompts": "^2.0.9",
-    "@types/readline-sync": "^1.4.3",
-    "@vercel/ncc": "^0.25.1",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.1.3"
+    "@types/node": "^16.3.2",
+    "eslint": "^7.30.0",
+    "eslint-config-sumikko": "^1.2.1",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
-    "kuromoji": "^0.1.2",
-    "prompts": "^2.4.0",
-    "readline-sync": "^1.4.10",
-    "tiny-segmenter": "^0.2.0"
+    "kuromojin": "^3.0.0",
+    "markov-strings": "^3.0.1",
+    "meow": "^10.0.1"
   }
 }

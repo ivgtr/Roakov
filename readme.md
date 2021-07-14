@@ -2,21 +2,42 @@
 
 ## Usage
 ```sh
-$ git clone https://github.com/ivgtr/roa-v1
-$ cd ./roa-v1
-$ yarn build
-$ node lib
+$ git clone https://github.com/ivgtr/Roakov.git
+$ cd ./Roakov
+$ yarn
+$ yarn roakov
+```
+
+```shell
+$ yarn roakov --help
+    Usage
+      $ yarn roakov
+    Examples
+      $ yarn roakov
+        roakovで文章を生成
+
+      $ yarn roakov <N>
+        N回文章を生成
+
+      $ yarn roakov --create <N>
+        現在のモデルを破棄し、<N>階層のモデルを作り直し文章を生成
 ```
 
 ## Result
-- 「とこちゃんのだ、勝手よすぎでよネルノダー🎶。」
-- 「固まったのだね😈 今日のだー！いつも指紋採取に来てくれたところ行くか、看護婦さんとかなのだ😳。」
-- 「最近できたらまたツイートすごいおいしいものいっぱい食べたらは朝に大切に入ったのだ☺️✨✨。」
-- 「お前、ライブみるでよなのだ💪😯コーラ飲んだ😳💦💦😳。」
-- 「お前、ふふん🕴このうんち……😢。」
+
+- 「おとなになった皆ありがとうなの中で流行ってもらったのだ！！質問、おすすめの少女マンガすぐ手だしてしまうん？」
+- 「引っこ抜いてポッカリ空いたのだ」
+- 「いつも息はぁはぁしててすまんのだ」
+- 「遊びに来てほしいのだ☺️ #にじさんじスプラ杯　みんなで遊ぶでよー😈😈」
+- 「今日もがタンゴトーンガタンゴトーン」
+- 「記憶にないのためのスプラカップをつけて #ロアまりん」
+- 「まことのツッコミガールに進化したか心配なのだ☺️✨✨✨」
+- 「パピコ半分こないのだ…（今日ははやくねるのだ🤒皆ありがとうなの……？」
+- 「ピクミンみてるのだ😭」
+- 「絵の具と粘土」
 
 ## License
 MIT ©[ivgtr](https://github.com/ivgtr)
 
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/mawaru_hana?style=social)](https://twitter.com/mawaru_hana) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Donate](https://img.shields.io/badge/%EF%BC%84-support-green.svg?style=flat-square)](https://www.buymeacoffee.com/ivgtr)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/ivgtr?style=social)](https://twitter.com/ivgtr) [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Donate](https://img.shields.io/badge/%EF%BC%84-support-green.svg?style=flat-square)](https://www.buymeacoffee.com/ivgtr)
