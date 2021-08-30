@@ -15,7 +15,7 @@
     "build": "ncc build src/index.ts --out lib --minify"
   },
   "devDependencies": {
-    "@types/node": "^16.3.2",
+    "@types/node": "16.3.2",
     "eslint": "7.30.0",
     "eslint-config-sumikko": "1.2.1",
     "prettier": "2.3.2",
